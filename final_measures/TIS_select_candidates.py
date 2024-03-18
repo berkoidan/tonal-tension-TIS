@@ -1,10 +1,11 @@
-from chord_operations.chord_qual import chord_qual
-from chord_operations.midi2chroma import midi2chroma
 import numpy as np
 
-from chord_operations.normal_fft import normal_fft
-from final_measures.TIS_dist import TIS_dist
-from final_measures.TIS_voices2 import TIS_voices2
+from chord_operations.chord_qual import *
+from chord_operations.midi2chroma import *
+from chord_operations.normal_fft import *
+from final_measures.TIS_dist import *
+from final_measures.TIS_global_surface import *
+from final_measures.TIS_voices2 import *
 
 def select_candidates_TIS(t, chords, seq, vkey):
     # Vamos a calcular la distancia que hay entre dos acordes bas�ndonos en la
@@ -25,7 +26,7 @@ def select_candidates_TIS(t, chords, seq, vkey):
     c1 = midi2chroma(m1)
     t1, mod_t1 = normal_fft(c1)    
     # char = t.get(seq[0])
-    v[0, 1], v[0, 4], v[0, 5], v[0, 6] = TIS_dist(c1, c1, vkey, seq[0])  # Distance between two chords
+    v[0, 1], v[0, 4], v[0, 5], v[0, 6] = TIS_dist(c1, c1, vkey, seq[0].value)  # Distance between two chords
     v[0, 3] = (1 - abs(chord_qual(t1)))  # Dissonance measure
     # Voice-leading to select the best inversion: The higher the better
     # (maximization function)    
@@ -38,10 +39,11 @@ def select_candidates_TIS(t, chords, seq, vkey):
         inversion, v[i, 1] = TIS_voices2(m1, m2, vkey)
         chords[i] = inversion
         # char = t.get(seq[i])
-        v[i, 1], v[i, 4], v[i, 5], v[i, 6] = TIS_dist(c1, c2, vkey, seq[i])
+        v[i, 1], v[i, 4], v[i, 5], v[i, 6] = TIS_dist(c1, c2, vkey, seq[i].value)
         v[i, 3] = (1 - abs(chord_qual(t2)))
     # To calculate tension surface:
-    # w_temp = TIS_global_surface(t, chords, seq, skey)  # /max_t;
-    # v[:, 3] = w_temp[:, 0]
+    print(t.toString(), chords, seq)
+    w_temp = TIS_global_surface(t, chords, seq, vkey[3])  # /max_t;
+    v[:, 2] = w_temp[:, 0]
     return chords, v
 
