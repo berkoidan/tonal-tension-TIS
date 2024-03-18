@@ -3,12 +3,12 @@ from chord_operations.normal_fft import normal_fft
 from final_measures.TIS_dist import TIS_dist
 from final_measures.TIS_surface import TIS_surface
 from final_measures.recursive_tree import recursive_tree
-from tree import HierarchicalTree
 import numpy as np
 
 
 def TIS_global_surface(t, seq, vkey):
     recursive_tree(t, vkey)
+    print(t, seq, vkey)
     new_fit = np.zeros((len(seq), 4))    
     for i in range(len(seq)):
         node = seq[i].parent

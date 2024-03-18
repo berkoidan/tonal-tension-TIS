@@ -35,17 +35,15 @@ for i in range(len(seq)):
     seq[i].setChord(midi2chroma(m1[i]))
 
 # Call the function
-# c1 = midi2chroma(m1[0])
-# c2 = midi2chroma(m1[1])
 vkey = extract_harm_functions(ckey)
 # m, a = lerdahl_select_candidates(None, m1, None, mkey)
 m, a = select_candidates_TIS(t, m1, seq, vkey)
 print(a)
 
+print('-------')
+
 # mkey = [60, 62, 64, 66, 67, 69, 71] # GMajor
 mkey = [note + 7 for note in mkey]
-# c1 = midi2chroma([note + 7 for note in m1[0]])
-# c2 = midi2chroma([note + 7 for note in m1[1]])
 m2 = [[note + 7 for note in row] for row in m1]
 ckey = midi2chroma(mkey)
 vkey = extract_harm_functions(ckey)
