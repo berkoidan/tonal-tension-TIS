@@ -1,3 +1,6 @@
+from chord_operations.calculus_fundamental import calculus_fundamental
+
+
 def tension_surface(t, m1, m2):
     v = abs(m1[3] - m2[3])
     r1 = calculus_fundamental(m1)
