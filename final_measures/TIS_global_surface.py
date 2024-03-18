@@ -1,7 +1,4 @@
-from chord_operations.midi2chroma import midi2chroma
-from chord_operations.normal_fft import normal_fft
 from final_measures.TIS_dist import TIS_dist
-from final_measures.TIS_surface import TIS_surface
 from final_measures.recursive_tree import recursive_tree
 import numpy as np
 

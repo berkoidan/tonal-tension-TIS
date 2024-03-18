@@ -1,6 +1,4 @@
-from chord_operations.midi2chroma import midi2chroma
 from final_measures.TIS_dist import TIS_dist
-from study_stability import study_stability
 
 def recursive_tree(t, vkey):
     if t.chord:

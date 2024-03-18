@@ -1,4 +1,3 @@
-from chord_operations.midi2chroma import *
 
 
 def calculus_fundamental(m1):
