@@ -51,11 +51,43 @@ class Chord():
         W = [2, 11, 17, 16, 19, 7]
         T = np.zeros(N//2)
         
-        chroma_vector = self.chroma()
-        mod_c = sum(chroma_vector)
+        chroma_vector = self.chroma()        
+        mod_c = max(sum(chroma_vector), 1)
         T = np.fft.fft(chroma_vector)[1:7]
-        for k in range(6):
-            # skip first value of T, representing freq 0
-            T[k] = (W[k]/mod_c) * T[k]
+        for k in range(6):            
+            T[k] = (W[k] / mod_c) * T[k]
         
         return T, mod_c
+    
+    def euclid(c1, c2):
+        v1, _ = c1.normal_fft()
+        v2, _ = c2.normal_fft()
+        r_n1 = np.real(v1)
+        i_n1 = np.imag(v1)
+        r_n2 = np.real(v2)
+        i_n2 = np.imag(v2)
+        distance = 0
+        for k in range(len(v1)):
+            distance += ((r_n2[k] - r_n1[k]) ** 2 + (i_n2[k] - i_n1[k]) ** 2)
+        distance = np.sqrt(distance)
+        return distance
+    
+    def __angular(v1, v2):
+        return np.arccos(np.real(np.dot(v1, v2)) / (np.linalg.norm(v1) * np.linalg.norm(v2)))
+    
+    def angular(c1, c2):
+        v1, _ = c1.normal_fft()
+        v2, _ = c2.normal_fft()
+        return Chord.__angular(v1, v2)
+    
+    def angular_rel(rel, c1, c2):
+        vrel, _ = rel.normal_fft()
+        v1, _ = c1.normal_fft()
+        v2, _ = c2.normal_fft()
+        return Chord.__angular(np.subtract(vrel, v1), np.subtract(vrel, v2))        
+    
+    def dissonance(self):        
+        c_max=32.8631
+        distance = Chord.euclid(self, Chord([]))
+        value=distance / c_max
+        return (1 - abs(value))

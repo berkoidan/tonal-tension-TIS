@@ -5,7 +5,7 @@ import numpy as np
 
 def TIS_global_surface(t, seq, vkey):
     recursive_tree(t, vkey)
-    print(t, seq, vkey)
+    print(t)
     new_fit = np.zeros((len(seq), 4))    
     for i in range(len(seq)):
         node = seq[i].parent
