@@ -1,7 +1,6 @@
 from Chord import Chord
+from HirerarchicalTree.create_tree import create_tree
 from final_measures.TIS_select_candidates import select_candidates_TIS
-# from final_measures.lerdahl_select_candidates import *
-from HierarchicalTree import HierarchicalTree
 from final_measures.lerdahl_select_candidates import lerdahl_select_candidates
 
 m1 = [Chord([60, 64, 67, 72]), Chord([57, 65, 69, 72]), Chord([57, 65, 69, 74]), Chord([55, 65, 67, 71]), Chord([60, 64, 67, 72])]
@@ -18,23 +17,14 @@ mkey = Chord.majorHarmFunctions(60) # C Major
 # minor Mode:
 # m_mode = 0
 
-def create_tree():
-    t = HierarchicalTree('TR')
-    n1 = t.addnode('TR')
-    n2 = t.addnode('DR')
-    n3 = n2.addnode('DR')
-    n4 = n3.addnode('SR')
-    n5 = n4.addnode('SR')
-    n6 = n4.addnode('SR')
-    seq = [n1.addnode('t'), n5.addnode('s'), n6.addnode('s'), n3.addnode('d'), n2.addnode('t')]
-    return t, seq
 
-t, seq = create_tree()
+
+t, seq = create_tree(m1, mkey)
 for i in range(len(seq)):
     seq[i].setChord(m1[i])
 
 # Call the function
-# m, a = lerdahl_select_candidates(t, m1, seq, mkey)
+m, a = lerdahl_select_candidates(t, m1, seq, mkey)
 m, a = select_candidates_TIS(t, m1, seq, mkey)
 print(a)
 
@@ -45,11 +35,11 @@ m2 = list(map(lambda chord: chord.transpose(7), m1))
 # mkey = list(map(lambda chord: chord.transpose(7), mkey))
 mkey = Chord.majorHarmFunctions(67) # G Major
 
-t, seq = create_tree()
+t, seq = create_tree(m2, mkey)
 for i in range(len(seq)):
     seq[i].setChord(m2[i])
     
-# m, a = lerdahl_select_candidates(t, m2, seq, mkey)
+m, a = lerdahl_select_candidates(t, m2, seq, mkey)
 m, a = select_candidates_TIS(t, m2, seq, mkey)
 print(a)
 

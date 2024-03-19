@@ -1,7 +1,6 @@
 import numpy as np
 from final_measures.lerdahl_dist import lerdahl_dist
 from final_measures.lerdahl_surface import lerdahl_surface
-from final_measures.recursive_tree import recursive_tree
 
 
 def lerdahl_global_surface(t, chords, seq, vkey):
@@ -10,7 +9,6 @@ def lerdahl_global_surface(t, chords, seq, vkey):
     # Arbol construido = t
     # acordes de la sucesi�n = chords
     # �ndice de los nodos hoja = seq
-    t2, index = recursive_tree(t, vkey)    
     new_fit = np.zeros((len(seq), 3))
     # t2 es el �rbol con los acordes sustituidos (�ndices)
     # Construyamos �rbol para generar medidas de distancia entre y->xdom
@@ -21,7 +19,7 @@ def lerdahl_global_surface(t, chords, seq, vkey):
             ld = 0
         else:
             ind2 = int(t2.get(temp))
-            ld1, ld2, ld3 = lerdahl_dist(chords[ind1, :], chords[ind2, :], skey)
+            ld1, ld2, ld3 = lerdahl_dist(chords[ind1, :], chords[ind2, :], vkey)
             ld = ld1 + ld2 + ld3
         t3 = t3.set(i, ld)
     for i in seq:
@@ -33,7 +31,7 @@ def lerdahl_global_surface(t, chords, seq, vkey):
         else:
             chord1 = chords[int(t2.get(p_i)), :]
             chord2 = chords[int(t2.get(i)), :]
-            new_fit[index] = lerdahl_surface(t3, chord1, chord2, p_i, skey)
+            new_fit[index] = lerdahl_surface(t3, chord1, chord2, p_i, vkey)
         index = index + 1
     best_p = new_fit
     return best_p
