@@ -1,4 +1,5 @@
 
+import numpy as np
 from HirerarchicalTree.create_tree import create_tree
 from final_measures.TIS_select_candidates import select_candidates_TIS
 from final_measures.lerdahl_select_candidates import lerdahl_select_candidates
@@ -7,17 +8,20 @@ from progressions import PROGRESSIONS
 SANITY_TRASPOSITION = False
 COMPUTE_LERDAHL = False
 
-def main_analysis(chords, vkey):
-    print(list(map(str, chords)))
-    print(list(map(str, vkey)))    
+TIS_weights = np.array([0, 0.158, 0, 0.303, 0.271, 0.318])
+
+def main_analysis(chords, vkey):    
     
     tree, seq = create_tree(chords, vkey)
-    print(list(map(str, seq)))
+    print(' | '.join(map(str, seq)))
     print(tree)
  
     n_candidates, vs = select_candidates_TIS(tree, chords, seq, vkey)
     print("TIS")
     print(vs)
+    tis_total = vs @ TIS_weights
+    for i, chord in enumerate(chords):
+        print(chord, '::', tis_total[i])
     
     if COMPUTE_LERDAHL:    
         n_candidates_lerdahl, vl = lerdahl_select_candidates(tree, chords, seq, vkey)
