@@ -34,12 +34,9 @@ for i in range(len(seq)):
     seq[i].setChord(m1[i])
 
 # Call the function
-m, a = lerdahl_select_candidates(t, m1, seq, mkey)
-# m, a = select_candidates_TIS(t, m1, seq, mkey)
-# print(a)
-print(list(map(list, a)))
-# print(list(map(int, a)))
-# print(a)
+# m, a = lerdahl_select_candidates(t, m1, seq, mkey)
+m, a = select_candidates_TIS(t, m1, seq, mkey)
+print(a)
 
 print('-------')
 
@@ -52,8 +49,7 @@ t, seq = create_tree()
 for i in range(len(seq)):
     seq[i].setChord(m2[i])
     
-m, a = lerdahl_select_candidates(t, m2, seq, mkey)
-# m, a = select_candidates_TIS(t, m2, seq, mkey)
-print(list(map(list, a)))
-# print(a)
+# m, a = lerdahl_select_candidates(t, m2, seq, mkey)
+m, a = select_candidates_TIS(t, m2, seq, mkey)
+print(a)
 
