@@ -10,7 +10,6 @@ class TISPoint():
             self.complex = chord
         else:
             raise Exception("Unkown type in TISPoint ctor")
-        print(chord, self.complex)
     
     def normal_fft(self, chroma):
         N = 12
@@ -32,13 +31,15 @@ class TISPoint():
         return np.linalg.norm(self.complex)
     
     def __mul__(self, other):
-        return np.dot(self.complex, other.complex)
+        value = np.dot(self.complex, np.conjugate(other.complex))
+        return value
     
     def __str__(self):
         return str(self.complex)
     
     def __matmul__(self, other):
-        return np.arccos(np.real(self * other) / (abs(self) * abs(other)))
+        cos = np.real(self * other) / (abs(self) * abs(other))
+        return np.arccos(np.clip(cos, -1, 1))
 
 class TIS():
     def dissonance(chord):
@@ -50,8 +51,9 @@ class TIS():
     def euclid(c1, c2):
         return abs(c1 - c2)
     
-    def angular(c1, c2):        
-        return c1.tis() @ c2.tis()
+    def angular(c1, c2):
+        value = c1.tis() @ c2.tis()
+        return value
     
     def angular_rel(rel, c1, c2):
         rel_tis = rel.tis()

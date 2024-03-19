@@ -22,7 +22,7 @@ def TIS_dist(c1, c2, vkey, tf):
     
     vt = (v2 * 1.5 + 3.5 * v3 + 1.1 * v4)
     
-    print("TIS_dist", c1, c2, tf, "\t", v2, v3, v4, vt)
+    # print("TIS_dist", c1, c2, tf, "\t", v2, v3, v4, vt)
     
     return v2, v3, v4, vt
 
