@@ -1,51 +1,50 @@
-def apply_rule(t, node, terminal):
+from HierarchicalTree import HierarchicalTree
+
+
+def apply_rule(node, terminal):
     import random
     
-    if t[node] == 'DR':
-        if terminal == 1:
-            r = 1
-        else:
-            r = random.randint(2, 4)
+    if node.value == 'DR':
+        if terminal:
+            return node.addnode('d')            
         
-        if r == 1:
-            t.addnode(node, 'd')
-        elif r == 2:
-            t.addnode(node, 'DR')
-            t.addnode(node, 'DR')
+        r = random.randint(2, 4)        
+        
+        if r == 2:
+            return node.addnode('DR'), node.addnode('DR')
         elif r == 3:
-            t.addnode(node, 'SR')
-            t.addnode(node, 'd')
+            return node.addnode('SR'), node.addnode('d')
         elif r == 4:
-            t.addnode(node, 'SR')
-            t.addnode(node, 'd')
+            return node.addnode('SR'), node.addnode('d')
     
-    if t[node] == 'SR':
-        if terminal == 1:
-            r = 1
-        else:
-            r = 2
+    if node.value == 'SR':
+        if terminal:
+            return node.addnode('s')
         
-        if r == 1:
-            t.addnode(node, 's')
-        elif r == 2:
-            t.addnode(node, 'SR')
-            t.addnode(node, 'SR')
+        return node.addnode('SR'), node.addnode('SR')
     
-    if t[node] == 'TR':
-        if terminal == 1:
-            r = 1
-        else:
-            r = random.randint(2, 4)
+    if node.value == 'TR':
+        if terminal:
+            return node.addnode('t')            
+        r = random.randint(2, 4)       
         
-        if r == 1:
-            t.addnode(node, 't')
-        elif r == 2:
-            t.addnode(node, 'TR')
-            t.addnode(node, 'TR')
+        if r == 2:
+            return node.addnode('TR'), node.addnode('TR')
         elif r == 3:
-            t.addnode(node, 'DR')
-            t.addnode(node, 'TR')
+            return node.addnode('DR'), node.addnode('TR')
         elif r == 4:
-            t.addnode(node, 'TR')
-            t.addnode(node, 'DR')
+            return node.addnode('TR'), node.addnode('DR')
 
+
+import random
+
+t = HierarchicalTree("TR")
+
+for i in range(400):
+    apply_rule(t.randomLeaf(), random.random() < 0.3)
+
+leaves = list(t.leaves())
+for leaf in leaves:
+    apply_rule(leaf, True)
+
+print(list(map(str, t.leaves())))

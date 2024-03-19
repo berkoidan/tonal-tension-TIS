@@ -1,15 +1,14 @@
 import random
 
+from apply_rule import apply_rule
+
 def create_tree(num_nodes, t):
     num_terminals = 0
-    terminal = 0
     while num_terminals < num_nodes:
         num_terminals = 0
         iterator = t.depthfirstiterator()
-        last_n = iterator[-1]
         node_leavesnt = []
         num_leaves = 0
-        index = 1
         for i in iterator:
             if t.isleaf(i):
                 num_leaves += 1

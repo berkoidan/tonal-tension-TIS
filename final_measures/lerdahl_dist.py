@@ -1,4 +1,4 @@
-from chord_operations.calculus_fundamental import *
+from final_measures.calculus_fundamental import *
 
 def lerdahl_dist(m1, m2, skey):
     r1 = calculus_fundamental(m1)

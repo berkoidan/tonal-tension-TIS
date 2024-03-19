@@ -1,5 +1,5 @@
 from Chord import Chord
-from chord_operations.calculus_fundamental import *
+from final_measures.calculus_fundamental import *
 
 
 def lerdahl_dissonance_inversion(m, r2):

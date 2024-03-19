@@ -30,3 +30,25 @@ class HierarchicalTree:
    
    def isLeaf(self):
       return False if self.children else True
+   
+   def randomLeaf(self):
+      import random
+      if not self.children:
+         return self
+      
+      return random.choice(self.children).randomLeaf()
+   
+   def leaves(self):
+      if not self.children:
+         yield self
+         return
+      
+      for child in self.children:
+         for node in child.leaves():
+            yield node
+
+   def dfs(self):
+      yield self
+      for child in self.children:
+         for node in child.dfs():
+            yield node

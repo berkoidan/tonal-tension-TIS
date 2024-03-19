@@ -3,6 +3,9 @@ import numpy as np
 NOTE_NAMES = ['c', 'c#', 'd', 'eb', 'e', 'f', 'f#', 'g', 'ab', 'a', 'bb', 'b']
 
 class Chord():
+    Major = True
+    Minor = False
+    
     def __init__(self, notes):
         self.notes = sorted(list(set(notes)))        
         

@@ -1,3 +1,6 @@
+import numpy as np
+
+
 def get_midi_data2(midi_matrix):
     f, c = midi_matrix.shape
     chords = []

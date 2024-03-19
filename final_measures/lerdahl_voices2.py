@@ -1,5 +1,5 @@
 from Chord import Chord
-from chord_operations.calculus_fundamental import calculus_fundamental
+from final_measures.calculus_fundamental import calculus_fundamental
 
 def lerdahl_voices_helper(note, bass, triad, key):    
     if note in bass:
