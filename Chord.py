@@ -1,6 +1,6 @@
 import numpy as np
 
-NOTE_NAMES = ['c', 'c#', 'd', 'eb', 'e', 'f', 'f#', 'g', 'ab', 'a', 'bb', 'b']
+NOTE_NAMES = ['C', 'C#', 'D', 'Eb', 'E', 'F', 'F#', 'G', 'Ab', 'A', 'Bb', 'B']
 
 class Chord():
     Major = True
@@ -19,7 +19,7 @@ class Chord():
         return self.notes[0] - other.notes[0]
     
     def __str__(self):
-        notes = ' '.join(map(lambda note: NOTE_NAMES[note % 12], self.notes))
+        notes = '-'.join(map(lambda note: NOTE_NAMES[note % 12], self.notes))
         return f'[{notes}]'
     
     def __contains__(self, element):

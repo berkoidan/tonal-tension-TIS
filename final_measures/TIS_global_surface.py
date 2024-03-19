@@ -3,7 +3,6 @@ import numpy as np
 
 
 def TIS_global_surface(t, seq, vkey):
-    print(t)
     new_fit = np.zeros((len(seq), 4))    
     for i in range(len(seq)):
         node = seq[i].parent

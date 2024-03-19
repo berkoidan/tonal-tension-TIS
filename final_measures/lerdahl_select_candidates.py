@@ -26,20 +26,21 @@ def lerdahl_select_candidates(t, chords, seq, skey):
     # max_t = max_c + max_d + max_d * (len(seq) - 1)
     # Voice-leading to select the best inversion: The higher the better
     # (maximization function)
-    v[0, 1], v[0, 4], v[0, 5] = lerdahl_dist(chords[0], chords[0], key)
-    v[0, 3] = lerdahl_dissonance(chords[0], key)
-    for i in range(1, len(chords)):
-        inversion, v[i, 0] = lerdahl_voices2(chords[i - 1], chords[i], key)
+    prev = chords[0]
+    for i in range(0, len(chords)):
+        inversion, v[i, 0] = lerdahl_voices2(prev, chords[i], key)
         chords[i] = inversion
         # Harmonic attraction rule: h=c*voice_leading/d, where c=10
         # (maximization function)
-        v[i, 1], v[i, 4], v[i, 5] = lerdahl_dist(chords[i - 1], chords[i], key)
+        v[i, 1], v[i, 4], v[i, 5] = lerdahl_dist(prev, chords[i], key)
         dist_final = (v[i, 1] + v[i, 4] + v[i, 5])
         if dist_final == 0:
             v[i, 0] = 0
         else:
-            v[i, 0] = v[i, 0] / dist_final
+            pass            
+            # v[i, 0] = v[i, 0] / dist_final what is this?
         v[i, 3] = lerdahl_dissonance(chords[i], key)
+        prev = chords[i]
     # v[:, 2] = lerdahl_global_surface(t, chords, seq, skey)
     return chords, v
 

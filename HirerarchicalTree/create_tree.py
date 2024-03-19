@@ -17,12 +17,14 @@ RULES = [
     [('SR', 's')],
     [('SR', 'SR', 'SR')],
     [('DR', 'DR', 'DR'), ('TR', 'TR', 'TR')],
-    [('DR', 'SR', 'd'), ('TR', 'DR', 't'), ('TR', 'DR', 'DR')],
-    [('DR', 'd'), ('TR', 't')]
+    [('DR', 'SR', 'd'), ('TR', 'DR', 't'), ('TR', 'TR', 'DR')],
+    [('DR', 'd')], 
+    [('TR', 't')]
 ]
 
 def apply_rule(seq, index, rule, vkey):
     if len(rule) == 3 and index + 1 < len(seq) and seq[index].value == rule[1] and seq[index+1].value == rule[2]: 
+        print("applying", rule)
         newnode = HierarchicalTree(rule[0])
         newnode.addsubtrees(seq[index], seq[index+1])
         newnode.setChord(choose_chord(seq[index].chord, seq[index+1].chord, vkey, rule[0][0].lower()))
@@ -31,6 +33,7 @@ def apply_rule(seq, index, rule, vkey):
         return seq, True
     
     if len(rule) == 2 and seq[index].value == rule[1]:
+        print("applying", rule)
         newnode = HierarchicalTree(rule[0])
         newnode.addsubtree(seq[index])
         newnode.setChord(seq[index].chord)
@@ -47,7 +50,9 @@ def tree_build_step(seq, vkey):
             for rule in ruleset:
                 seq, applied = apply_rule(seq, middle_i + stepdiff, rule, vkey)
                 if applied:
-                    return seq            
+                    return seq
+    print("Tree:", list(map(str, seq)))
+    print("Seq:", list(map(lambda node: node.value, seq)))
     raise Exception("Could not apply rule")
 
 def create_tree(chords, vkey):    
