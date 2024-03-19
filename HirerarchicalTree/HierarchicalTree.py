@@ -20,11 +20,9 @@ class HierarchicalTree:
       child.parent = self
       return self
    
-   def addsubtrees(self, child1, child2):
-      self.children.append(child1)
-      self.children.append(child2)
-      child1.parent = self
-      child2.parent = self
+   def addsubtrees(self, children):
+      for child in children:
+         self.addsubtree(child)
       return self
     
    def __str__(self):
