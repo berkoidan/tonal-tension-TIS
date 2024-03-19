@@ -1,11 +1,8 @@
 
-from Chord import Chord
-from chord_operations.harmotion import harmotion
+from final_measures.TIS_base import TIS
 
 def TIS_dist(c1, c2, vkey, tf):    
     # Calculates the DFT of the chroma
-    t1, mod_c1 = c1.normal_fft()
-    t2, mod_c2 = c2.normal_fft()
     
     # Operations:
     # a) Measure quality of the chord
@@ -15,13 +12,13 @@ def TIS_dist(c1, c2, vkey, tf):
     max_d = 64.8757
 
     # b) Compare two consecutive chords for the progression
-    v2 = abs(Chord.euclid(c1, c2)) / max_d
+    v2 = abs(TIS.euclid(c1, c2)) / max_d
     
     # c) Compare distance between the chord and the key    
-    v3 = Chord.angular(c2, vkey[0])
+    v3 = TIS.angular(c2, vkey[0])
     
     # d) Compare distance between the chord and the harmonic functions
-    v4 = abs(harmotion(c2, vkey, tf))
+    v4 = abs(TIS.harmotion(c2, vkey, tf))
     
     vt = (v2 * 1.5 + 3.5 * v3 + 1.1 * v4)
     
