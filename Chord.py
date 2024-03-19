@@ -19,6 +19,13 @@ class Chord():
         notes = ' '.join(map(lambda note: NOTE_NAMES[note % 12], self.notes))
         return f'[{notes}]'
     
+    def __contains__(self, element):
+        if isinstance(element, Chord):
+            if len(element) > 1:
+                raise Exception("Chord should has exactly one note")
+            element = element.notes[0]
+        return any(map(lambda note: note % 12 == element % 12, self.notes))
+    
     def major(bass):
         return Chord([bass, bass + 4, bass + 7, bass + 12])
 
@@ -38,7 +45,7 @@ class Chord():
         return [Chord.minorScale(bass), Chord.minor(bass), Chord.major(bass + 7), Chord.minor(bass + 5)]
     
     def transpose(self, semitones):
-        return Chord(map(lambda note: note + semitones, self.notes))
+        return Chord(map(lambda note: note + semitones, self.notes))    
 
     def chroma(self):
         chroma_vector = [0] * 12

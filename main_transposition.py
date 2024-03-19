@@ -2,6 +2,7 @@ from Chord import Chord
 from final_measures.TIS_select_candidates import select_candidates_TIS
 # from final_measures.lerdahl_select_candidates import *
 from HierarchicalTree import HierarchicalTree
+from final_measures.lerdahl_select_candidates import lerdahl_select_candidates
 
 m1 = [Chord([60, 64, 67, 72]), Chord([57, 65, 69, 72]), Chord([57, 65, 69, 74]), Chord([55, 65, 67, 71]), Chord([60, 64, 67, 72])]
 # Global Matrix
@@ -33,9 +34,12 @@ for i in range(len(seq)):
     seq[i].setChord(m1[i])
 
 # Call the function
-# m, a = lerdahl_select_candidates(None, m1, None, mkey)
-m, a = select_candidates_TIS(t, m1, seq, mkey)
-print(a)
+m, a = lerdahl_select_candidates(t, m1, seq, mkey)
+# m, a = select_candidates_TIS(t, m1, seq, mkey)
+# print(a)
+print(list(map(list, a)))
+# print(list(map(int, a)))
+# print(a)
 
 print('-------')
 
@@ -48,7 +52,8 @@ t, seq = create_tree()
 for i in range(len(seq)):
     seq[i].setChord(m2[i])
     
-m, a = select_candidates_TIS(t, m2, seq, mkey)
-
-print(a)
+m, a = lerdahl_select_candidates(t, m2, seq, mkey)
+# m, a = select_candidates_TIS(t, m2, seq, mkey)
+print(list(map(list, a)))
+# print(a)
 

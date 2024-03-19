@@ -1,5 +1,8 @@
 
 
+from Chord import Chord
+
+
 def calculus_fundamental(m1):
     # Establish weights for the sub-harmonics obtained
     w1 = 10  # 8th descendent
@@ -20,14 +23,14 @@ def calculus_fundamental(m1):
          [w5, 0, w3, 0, 0, w2, 0, 0, w4, 0, w1, 0],
          [0, w5, 0, w3, 0, 0, w2, 0, 0, w4, 0, w1]]
     
-    array_chord = midi2chroma(m1)
+    array_chord = m1.chroma()    
     
     # Multiply vectors
     array_value = [0] * 12
     for j in range(12):
         array_value[j] = sum([W[j][k] * array_chord[k] for k in range(12)])
-    
+        
     index = array_value.index(max(array_value))
-  
+    
     return index
 
