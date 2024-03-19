@@ -21,7 +21,7 @@ def main_analysis(chords, vkey):
     print(vs)
     tis_total = vs @ TIS_weights
     for i, chord in enumerate(chords):
-        print(chord, '::', tis_total[i])
+        print(chord, '\t::', tis_total[i])
     
     if COMPUTE_LERDAHL:    
         n_candidates_lerdahl, vl = lerdahl_select_candidates(tree, chords, seq, vkey)
