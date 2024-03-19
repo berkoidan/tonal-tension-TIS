@@ -10,7 +10,8 @@ def TIS_voices2(m1, m2, vkey):
         cnote2 = m2[i]
         nsemitones = abs(m1[i] - m2[i])
         v1, v2, v3, distnotes = TIS_dist(cnote1, cnote2, vkey, 't')
-        dist_temp = dist_temp + 1 / np.exp(0.05 * nsemitones * distnotes)
-    min_dist = dist_temp
+        print(cnote1, cnote2, nsemitones, distnotes)
+        dist_temp = dist_temp + np.exp(-0.05 * nsemitones * distnotes)
+    min_dist = 1 - (dist_temp / len(m1))
     return inversion, min_dist
 

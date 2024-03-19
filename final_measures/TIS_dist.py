@@ -6,9 +6,6 @@ def TIS_dist(c1, c2, vkey, tf):
     
     # Operations:
     # a) Measure quality of the chord
-    # v1 = abs(chord_qual(t2))
-    # v1 = 1 - v1
-    
     max_d = 64.8757
 
     # b) Compare two consecutive chords for the progression
@@ -20,7 +17,7 @@ def TIS_dist(c1, c2, vkey, tf):
     # d) Compare distance between the chord and the harmonic functions
     v4 = abs(TIS.harmotion(c2, vkey, tf))
     
-    vt = (v2 * 1.5 + 3.5 * v3 + 1.1 * v4)
+    vt = (1.5 * v2 + 3.5 * v3 + 1.1 * v4)
     
     # print("TIS_dist", c1, c2, tf, "\t", v2, v3, v4, vt)
     

@@ -20,7 +20,7 @@ class TISPoint():
         T = np.fft.fft(chroma)[1:7]
         for k in range(6):            
             T[k] = (W[k] / mod_c) * T[k]
-            
+        
         return T, mod_c
     
     def __sub__(self, other):
@@ -49,7 +49,7 @@ class TIS():
         return 1 - value
     
     def euclid(c1, c2):
-        return abs(c1 - c2)
+        return abs(c1.tis() - c2.tis())
     
     def angular(c1, c2):
         value = c1.tis() @ c2.tis()
@@ -57,7 +57,8 @@ class TIS():
     
     def angular_rel(rel, c1, c2):
         rel_tis = rel.tis()
-        return (rel_tis - c1.tis()) @ (rel_tis - c2.tis())
+        value = (rel_tis - c1.tis()) @ (rel_tis - c2.tis())        
+        return value
     
     def harmotion(chord, vkey, harm_f):
         if harm_f == 't':  # Tonic function

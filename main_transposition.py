@@ -21,7 +21,7 @@ mkey = Chord.majorHarmFunctions(60) # C Major
 def create_tree():
     t = HierarchicalTree('TR')
     n1 = t.addnode('TR')
-    n2 = t.addnode('TR')
+    n2 = t.addnode('DR')
     n3 = n2.addnode('DR')
     n4 = n3.addnode('SR')
     n5 = n4.addnode('SR')
