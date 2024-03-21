@@ -11,10 +11,9 @@ class TISPoint():
         else:
             raise Exception("Unkown type in TISPoint ctor")
     
-    def normal_fft(self, chroma):
-        N = 12
+    def normal_fft(self, chroma):        
         W = [2, 11, 17, 16, 19, 7]
-        T = np.zeros(N//2)
+        T = np.zeros(len(chroma)//2)
         
         mod_c = max(sum(chroma), 1)
         T = np.fft.fft(chroma)[1:7]
