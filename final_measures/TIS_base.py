@@ -18,10 +18,7 @@ class TISPoint():
         
         mod_c = max(sum(chroma), 1)
         T = np.fft.fft(chroma)[1:7]
-        for k in range(6):            
-            T[k] = (W[k] / mod_c) * T[k]
-        
-        return T, mod_c
+        return (T * W) / mod_c, mod_c
     
     def __sub__(self, other):
         new_val = np.subtract(self.complex, other.complex)
