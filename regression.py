@@ -12,20 +12,17 @@ from progressions import PROGRESSIONS
 from read_e2 import figure_path, read_samples
 
 def get_model_samples(seed):
-    number_of_chords = sum(map(lambda prog: len(prog[1]), PROGRESSIONS))
-    samples_x = np.zeros((number_of_chords, TISFeatures.NumberOfFeatures))
-    samples_y = np.zeros(number_of_chords)
-
-    next_sample = 0
+    # number_of_chords = sum(map(lambda prog: len(prog[1]), PROGRESSIONS))
+    samples_x = []
+    samples_y = []
     for listener_sample in read_samples(sys.argv[1]):
         participant_model = listener_sample.get_participants_model()
         vkey, chords = PROGRESSIONS[listener_sample.progression_id]
         tree, seq = create_tree(chords, vkey) 
         _, features = select_candidates_TIS(tree, chords, seq, vkey)
         for i in range(len(chords)):
-            samples_x[next_sample] = features[i]
-            samples_y[next_sample] = participant_model[i]
-            next_sample += 1
+            samples_x.append(features[i])
+            samples_y.append(participant_model[i])
     X_train, X_test, y_train, y_test = train_test_split(samples_x, samples_y, random_state=seed)
     return X_train, X_test, y_train, y_test
 
