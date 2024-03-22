@@ -62,14 +62,16 @@ PROGRESSIONS = [
     # e6-debussy
     (Chord.majorHarmFunctions(60), [
         Chord([60, 64, 67, 72]), 
-        Chord([59, 62, 65, 68]), 
-        Chord([60, 64, 67, 69]), 
-        Chord([62, 65, 67, 71]), 
+        # Chord([59, 62, 65, 68]), 
         Chord([60, 62, 65, 69]), 
-        Chord([59, 62, 65, 67]), 
-        Chord([57, 60, 62, 65]), 
-        Chord([56, 59, 62, 64]), 
-        Chord([55, 57, 60, 64]), 
+        Chord([60, 64, 67, 69]), 
+        # Chord([62, 65, 67, 71]), 
+        Chord([57, 60, 64, 69]), 
+        Chord([60, 62, 65, 69]), 
+        # Chord([59, 62, 65, 67]), 
+        # Chord([57, 60, 62, 65]), 
+        # Chord([56, 59, 62, 64]), 
+        # Chord([55, 57, 60, 64]), 
     ]),
     # e1-invented
     (Chord.majorHarmFunctions(60), [

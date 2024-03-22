@@ -22,6 +22,7 @@ RULES = [
     [('DR', 'd')], 
     [('TR', 'DR', 't')],
     [('TR', 't')],
+    [('TR', 'TR', 'SR')],
 ]
 
 def apply_rule(seq, index, rule, vkey):
