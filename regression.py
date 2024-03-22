@@ -32,10 +32,12 @@ def train(X_train, X_test, y_train, y_test):
     model.fit(X_train, y_train)
     return model, model.score(X_test, y_test)
 
-seed = 42
+seed = 44
 X_train, X_test, y_train, y_test = get_model_samples(seed)
 
 model, score = train(X_train, X_test, y_train, y_test)
+print("Trained score:", score)
+print(model.coef_)
 for listener_sample in read_samples(sys.argv[1]):
     participant_model = listener_sample.get_participants_model()
     vkey, chords = PROGRESSIONS[listener_sample.progression_id]
