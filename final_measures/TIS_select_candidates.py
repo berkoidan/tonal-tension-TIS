@@ -12,6 +12,7 @@ class TISFeatures():
     Dissonance = 3
     VoiceLeading = 4
     HierarchicalTension = 5
+    NumberOfFeatures = 6
 
 def select_candidates_TIS(t, chords, seq, vkey):
     # --> v1: voice leading (harmonic attraction)

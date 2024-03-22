@@ -82,11 +82,16 @@ class ProgressionSample():
     def get_participants_model(self):
         return np.array(list(map(np.mean, np.array_split(self.get_mean()[0], self.chords_count))))
 
+def figure_path(prog_id, id, name):
+    dir_path = f'Figures\\Progression{prog_id}'    
+    if not os.path.isdir(dir_path): 
+        os.makedirs(dir_path)
+    
+    return os.path.join(dir_path, f'{id:02} {name}.png')
+    
+
 def plotgraph(prog_samples):
     FIGSIZE = (9, 4)
-    dir_path = f'Figures\\Progression{prog_samples.progression_id}'    
-    if not os.path.isdir(dir_path): 
-        os.makedirs(dir_path)    
     
     # Plain samples
     fig, ax = plt.subplots(figsize=FIGSIZE)
@@ -96,7 +101,7 @@ def plotgraph(prog_samples):
         ax.plot(time_x, sample)
     ax.set(xlabel='Event Number', ylabel='Instantaneous tonal tension', title=f'Progression {prog_samples.progression_id}: Plain Samples')
     ax.grid()
-    fig.savefig(os.path.join(dir_path, '00 plain.png'))
+    fig.savefig(figure_path(prog_samples.progression_id, 0, 'plain'))
     plt.close(fig)
     
     # normalized samples
@@ -105,7 +110,7 @@ def plotgraph(prog_samples):
         ax.plot(time_x, sample)
     ax.set(xlabel='Event Number', ylabel='Instantaneous tonal tension', title=f'Progression {prog_samples.progression_id}: Normalized Samples')
     ax.grid()
-    fig.savefig(os.path.join(dir_path, '01 normalized.png'))
+    fig.savefig(figure_path(prog_samples.progression_id, 1, 'normalized'))
     plt.close(fig)
     
     mean, std = prog_samples.get_mean()
@@ -116,7 +121,7 @@ def plotgraph(prog_samples):
     ax.plot(time_x, mean)
     ax.set(xlabel='Event Number', ylabel='Instantaneous tonal tension', title=f'Progression {prog_samples.progression_id}: Mean Samples')
     ax.grid()
-    fig.savefig(os.path.join(dir_path, '02 mean.png'))
+    fig.savefig(figure_path(prog_samples.progression_id, 2, 'mean'))
     plt.close(fig)
     
     chords_x = prog_samples.get_chords_x()
@@ -128,7 +133,7 @@ def plotgraph(prog_samples):
     ax.plot(chords_x, participants_model, 'gD')
     ax.set(xlabel='Event Number', ylabel='Instantaneous tonal tension', title=f'Progression {prog_samples.progression_id}: Participants Tension')
     ax.grid()
-    fig.savefig(os.path.join(dir_path, '03 descrete.png'))
+    fig.savefig(figure_path(prog_samples.progression_id, 3, 'descrete'))
     plt.close(fig)
 
 if __name__ == '__main__':    

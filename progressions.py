@@ -3,11 +3,15 @@ from Chord import Chord
 PROGRESSIONS = [
     # example
     (Chord.majorHarmFunctions(60), [
-        Chord([60, 64, 67, 72]), 
-        Chord([57, 65, 69, 72]), 
-        Chord([57, 65, 69, 74]), 
-        Chord([55, 65, 67, 71]), 
         Chord([60, 64, 67, 72]),
+        Chord([57, 60, 64, 72]),
+        Chord([59, 65, 67, 74]),
+        Chord([60, 64, 67, 72]),
+        # Chord([60, 64, 67, 72]), 
+        # Chord([57, 65, 69, 72]), 
+        # Chord([57, 65, 69, 74]), 
+        # Chord([55, 65, 67, 71]), 
+        # Chord([60, 64, 67, 72]),
     ]),
     # e1-bach
     (Chord.majorHarmFunctions(60), [
