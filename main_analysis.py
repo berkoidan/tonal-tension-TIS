@@ -5,7 +5,7 @@ from final_measures.TIS_select_candidates import select_candidates_TIS
 from final_measures.lerdahl_select_candidates import lerdahl_select_candidates
 from progressions import PROGRESSIONS
 
-SANITY_TRASPOSITION = False
+SANITY_TRASPOSITION = True
 COMPUTE_LERDAHL = False
 
 TIS_weights = np.array([0, 0.158, 0, 0.303, 0.271, 0.318])
@@ -27,18 +27,19 @@ def main_analysis(chords, vkey):
         n_candidates_lerdahl, vl = lerdahl_select_candidates(tree, chords, seq, vkey)
         print("Lerdahl")
         print(vl)
-    
-for i, progression in enumerate(PROGRESSIONS):
-    key, chords = progression
-    print()
-    print(f"=========== Prog {i} ============")
-    main_analysis(chords, key)
-    
-    if SANITY_TRASPOSITION:
+
+if __name__ == '__main__': 
+    for i, progression in enumerate(PROGRESSIONS):
+        key, chords = progression
         print()
-        print(f"Sanity Transposition:")
-        chords = list(map(lambda chord: chord.transpose(7), chords))
-        key = list(map(lambda chord: chord.transpose(7), key))
+        print(f"=========== Prog {i} ============")
         main_analysis(chords, key)
+        
+        if SANITY_TRASPOSITION:
+            print()
+            print(f"Sanity Transposition:")
+            chords = list(map(lambda chord: chord.transpose(7), chords))
+            key = list(map(lambda chord: chord.transpose(7), key))
+            main_analysis(chords, key)
     
     

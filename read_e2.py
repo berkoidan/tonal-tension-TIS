@@ -1,17 +1,8 @@
 import os, sys
 import numpy as np
 import matplotlib.pyplot as plt
-
 from progressions import PROGRESSIONS
 
-
-def normalize(datasets):
-    for i in range(len(datasets)):
-        min_val = np.min(datasets[i])
-        max_val = np.max(datasets[i])
-        datasets[i] = (datasets[i] - min_val) / (max_val - min_val)
-    return datasets
-    
 def read_samples_from_file(file):
     with open(file, 'r') as fid:
         lines = fid.readlines()
@@ -37,10 +28,7 @@ def read_samples(rootdir):
                 samples[prog_id] = []
             samples[prog_id].append(sample)
     
-    for prog_id in list(samples.keys()):
-        samples[prog_id] = pad_samples(samples[prog_id])
-    
-    return samples
+    return list(map(lambda prog_id: ProgressionSample(prog_id, pad_samples(samples[prog_id])), samples))    
 
 def pad_samples(prog_samples):
     max_length = max(map(lambda sample: len(sample), prog_samples))    
@@ -63,66 +51,90 @@ def plotgraph(graphtitle, data, err):
 
     fig.savefig("test.png")
     plt.show()
-
-def plotgraph(prog_id, prog_samples):
-    chords_count = len(PROGRESSIONS[prog_id][1])
-    chords_x = np.arange(1, chords_count + 1)
-    time_x = np.arange(1, chords_count + 1, (chords_count) / len(prog_samples[0]))
     
-    dir_path = f'Figures\\Progression{prog_id}'    
+class ProgressionSample():
+    def __init__(self, progression_id, samples):
+        self.progression_id = progression_id
+        self.samples = samples
+        self.chords_count = len(PROGRESSIONS[self.progression_id][1])
+    
+    def get_time_x(self):
+        return np.arange(1, self.chords_count + 1, (self.chords_count) / len(self.samples[0]))
+    
+    def get_chords_x(self):
+        return np.arange(1, self.chords_count + 1)
+        
+    def get_plain(self):
+        return self.samples
+    
+    def get_normalized(self):
+        result = np.zeros(self.samples.shape)
+        for i in range(len(self.samples)):
+            min_val = np.min(self.samples[i])
+            max_val = np.max(self.samples[i])
+            result[i] = (self.samples[i] - min_val) / (max_val - min_val)
+        return result
+    
+    def get_mean(self):
+        norm = self.get_normalized()
+        return np.mean(norm, axis=0), np.std(norm, axis=0)
+    
+    def get_participants_model(self):
+        return np.array(list(map(np.mean, np.array_split(self.get_mean()[0], self.chords_count))))
+
+def plotgraph(prog_samples):
+    FIGSIZE = (9, 4)
+    dir_path = f'Figures\\Progression{prog_samples.progression_id}'    
     if not os.path.isdir(dir_path): 
         os.makedirs(dir_path)    
     
-    
     # Plain samples
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=FIGSIZE)
     ax.set_ylim([0, 100])
-    for sample in prog_samples:
+    time_x = prog_samples.get_time_x()
+    for sample in prog_samples.get_plain():
         ax.plot(time_x, sample)
-    ax.set(xlabel='Event Number', ylabel='Instantaneous tonal tension', title=f'Progression {prog_id}: Plain Samples')
+    ax.set(xlabel='Event Number', ylabel='Instantaneous tonal tension', title=f'Progression {prog_samples.progression_id}: Plain Samples')
     ax.grid()
     fig.savefig(os.path.join(dir_path, '00 plain.png'))
     plt.close(fig)
     
-    # plt.ylim([0, 1])
-    prog_samples = normalize(prog_samples)
-    
     # normalized samples
-    fig, ax = plt.subplots()    
-    for sample in prog_samples:
+    fig, ax = plt.subplots(figsize=FIGSIZE)    
+    for sample in prog_samples.get_normalized():
         ax.plot(time_x, sample)
-    ax.set(xlabel='Event Number', ylabel='Instantaneous tonal tension', title=f'Progression {prog_id}: Normalized Samples')
+    ax.set(xlabel='Event Number', ylabel='Instantaneous tonal tension', title=f'Progression {prog_samples.progression_id}: Normalized Samples')
     ax.grid()
     fig.savefig(os.path.join(dir_path, '01 normalized.png'))
     plt.close(fig)
     
-    mean = np.mean(prog_samples, axis=0)
-    std = np.std(prog_samples, axis=0)
+    mean, std = prog_samples.get_mean()
     # normalized samples
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=FIGSIZE)
     ax.set_ylim([0, 1])
     ax.errorbar(time_x, mean, yerr=std, fmt='c,')
     ax.plot(time_x, mean)
-    ax.set(xlabel='Event Number', ylabel='Instantaneous tonal tension', title=f'Progression {prog_id}: Mean Samples')
+    ax.set(xlabel='Event Number', ylabel='Instantaneous tonal tension', title=f'Progression {prog_samples.progression_id}: Mean Samples')
     ax.grid()
     fig.savefig(os.path.join(dir_path, '02 mean.png'))
     plt.close(fig)
     
-    participants_model = np.array(list(map(np.mean, np.array_split(mean, chords_count))))
+    chords_x = prog_samples.get_chords_x()
+    participants_model = prog_samples.get_participants_model()
     # normalized samples
-    fig, ax = plt.subplots()    
+    fig, ax = plt.subplots(figsize=FIGSIZE)    
     ax.set_ylim([0, 1])
     ax.plot(chords_x, participants_model)
     ax.plot(chords_x, participants_model, 'gD')
-    ax.set(xlabel='Event Number', ylabel='Instantaneous tonal tension', title=f'Progression {prog_id}: Participants Tension')
+    ax.set(xlabel='Event Number', ylabel='Instantaneous tonal tension', title=f'Progression {prog_samples.progression_id}: Participants Tension')
     ax.grid()
     fig.savefig(os.path.join(dir_path, '03 descrete.png'))
     plt.close(fig)
 
-result_path = sys.argv[1]
-# result_path = 'c:\\Temp\\tonal-tension-TIS-master\\Experiment1\\Results'
+if __name__ == '__main__':    
+    result_path = sys.argv[1]
 
-samples = read_samples(result_path)
+    samples = read_samples(result_path)
 
-for prog in samples:
-    plotgraph(prog, samples[prog])
+    for prog in samples:
+        plotgraph(prog)
