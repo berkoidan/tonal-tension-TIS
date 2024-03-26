@@ -95,8 +95,10 @@ def plotgraph(prog_samples):
     
     # Plain samples
     fig, ax = plt.subplots(figsize=FIGSIZE)
-    ax.set_ylim([0, 100])
+    chords_x = prog_samples.get_chords_x()
     time_x = prog_samples.get_time_x()
+    plt.xticks(chords_x)
+    ax.set_ylim([0, 100])
     for sample in prog_samples.get_plain():
         ax.plot(time_x, sample)
     ax.set(xlabel='Event Number', ylabel='Instantaneous tonal tension', title=f'Progression {prog_samples.progression_id}: Plain Samples')
@@ -124,7 +126,6 @@ def plotgraph(prog_samples):
     fig.savefig(figure_path(prog_samples.progression_id, 2, 'mean'))
     plt.close(fig)
     
-    chords_x = prog_samples.get_chords_x()
     participants_model = prog_samples.get_participants_model()
     # normalized samples
     fig, ax = plt.subplots(figsize=FIGSIZE)    

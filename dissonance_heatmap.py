@@ -5,7 +5,7 @@ from Chord import NOTE_NAMES, Chord
 from final_measures.TIS_base import TIS
 
 BASE_NOTE = 60
-NOTE_COUNT = 12
+NOTE_COUNT = len(NOTE_NAMES)
 
 
 def plot_heatmap(measures):
@@ -34,9 +34,7 @@ def plot_heatmap(measures):
 measures = np.zeros((NOTE_COUNT, NOTE_COUNT))
 for note1 in range(NOTE_COUNT):
     for note2 in range(NOTE_COUNT):
-        chord = Chord([BASE_NOTE, BASE_NOTE + note1, BASE_NOTE + note2])
-        dissonace = TIS.dissonance(chord)
-        print(chord, ':', dissonace)
+        chord = Chord([BASE_NOTE, BASE_NOTE + note1, BASE_NOTE + note2])        
         measures[note1][note2] = TIS.dissonance(chord)
 
 
